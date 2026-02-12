@@ -29,7 +29,7 @@ test.describe('API Tests', () => {
         name: "john",
         address: "seattle",
         phone: "1234567890",
-        email: "john@abc.com"
+        email: "john@example.com"
       }
     });
 
@@ -40,7 +40,7 @@ test.describe('API Tests', () => {
 
   // Case 3: Login, create with token, get by ID
   test('Case 3: Login, create with token, get by ID', async ({ request }) => {
-    // Step 1: Login with valid credentials
+    // Step 1: Login
     const loginResponse = await request.post(`${BASE_URL}/auth/login`, {
       data: {
         email: "admin@gmail.com",
@@ -49,39 +49,43 @@ test.describe('API Tests', () => {
     });
     expect(loginResponse.status()).toBe(200);
     const loginBody = await loginResponse.json();
-    token = loginBody.token;
+    token = loginBody.tokens.access.token; // assign to outer variable
+    console.log("Token:", token);
 
-    // Step 2: Create resource with Bearer token
-    const createResponse = await request.post(`${BASE_URL}/create`, {
-      data: {
-        name: YOUR_NAME,
-        address: "some value",
-        phone: "1234567890",
-        email: YOUR_EMAIL
-      },
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+    // Step 2: Create resource
+    const userData = {
+      name: "Martin",
+      address: "Seattle",
+      phone: "1234567890",
+      email: `martin${Date.now()}@example.com` // unique email
+    };
+
+    const createResponse = await request.post(`${BASE_URL}/agencies/add`, {
+      data: userData,
+      headers: { Authorization: `Bearer ${token}` }
     });
-    expect(createResponse.status()).toBe(201);
+    expect(createResponse.status()).toBe(200);
+
     const createBody = await createResponse.json();
-    createdId = createBody.id;
+    createdId = createBody.agency.id; // <-- updated to match API response
+    console.log("Created ID:", createdId);
 
     // Step 3: Get resource by ID
-    const getResponse = await request.get(`${BASE_URL}/getById`, {
-      params: { id: createdId },
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+    const getResponse = await request.get(`${BASE_URL}/agencies/${createdId}`, {
+      headers: { Authorization: `Bearer ${token}` }
     });
     expect(getResponse.status()).toBe(200);
+
     const getBody = await getResponse.json();
+    console.log(getBody)
+
+    // Best practice: verify structure first
+    expect(getBody.response).toBeTruthy();
 
     // Validate values
-    expect(getBody.name).toBe(YOUR_NAME);
-    expect(getBody.address).toBe("some value");
-    expect(getBody.phone).toBe("1234567890");
-    expect(getBody.email).toBe(YOUR_EMAIL);
+    expect(getBody.response.name).toBe(userData.name);
+    expect(getBody.response.address).toBe(userData.address);
+    expect(getBody.response.phone).toBe(userData.phone);
+    expect(getBody.response.email).toBe(userData.email);
   });
-
 });
