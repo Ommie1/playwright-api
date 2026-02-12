@@ -1,8 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const { validLogin, invalidLogin, generateAgencyData } = require('../utils/testData');
-
-// Base URL of API
-const BASE_URL = 'https://automation-backend-ec08fe65847a.herokuapp.com/api/v1';
+const { BASE_URL } = require('../utils/baseUrl');
 
 test.describe('API Tests', () => {
 
