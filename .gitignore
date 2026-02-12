@@ -1,0 +1,22 @@
+# Node.js dependencies
+node_modules/
+test-results/
+playwright-report/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+
+# Build directories
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/
