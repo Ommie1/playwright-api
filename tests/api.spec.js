@@ -1,4 +1,6 @@
 const { test, expect } = require('@playwright/test');
+const { faker } = require('@faker-js/faker');
+
 
 // Base URL of API
 const BASE_URL = 'https://automation-backend-ec08fe65847a.herokuapp.com/api/v1';
@@ -26,10 +28,10 @@ test.describe('API Tests', () => {
   test('Case 2: Create without authentication', async ({ request }) => {
     const response = await request.post(`${BASE_URL}/agencies/add`, {
       data: {
-        name: "john",
-        address: "seattle",
-        phone: "1234567890",
-        email: "john@example.com"
+        name: faker.person.fullName(),
+        address: faker.location.city(),
+        phone: faker.phone.number('##########'),
+        email: faker.internet.email()
       }
     });
 
@@ -39,7 +41,7 @@ test.describe('API Tests', () => {
   });
 
   // Case 3: Login, create with token, get by ID
-  test('Case 3: Login, create with token, get by ID', async ({ request }) => {
+  test.only('Case 3: Login, create with token, get by ID', async ({ request }) => {
     // Step 1: Login
     const loginResponse = await request.post(`${BASE_URL}/auth/login`, {
       data: {
@@ -54,10 +56,10 @@ test.describe('API Tests', () => {
 
     // Step 2: Create resource
     const userData = {
-      name: "Martin",
-      address: "Seattle",
-      phone: "1234567890",
-      email: `martin${Date.now()}@example.com` // unique email
+      name: faker.person.fullName(),
+      address: faker.location.city(),
+      phone: faker.phone.number('##########'),
+      email: faker.internet.email()
     };
 
     const createResponse = await request.post(`${BASE_URL}/agencies/add`, {
