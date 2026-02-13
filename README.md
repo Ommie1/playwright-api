@@ -1,14 +1,33 @@
 # API Automation Tests with Playwright
 
-## Overview
+Playwright enables reliable end-to-end testing for modern web apps.
 
-This project contains **API automation tests** using **Playwright** with:
+## Getting Started
+
+Clone the code from repository, https://github.com/Ommie1/playwright-api.git
+
+### Prerequisites
+
+- NodeJS
+- Npm
+
+### Installation
+
+In root folder,enter the following command . It will Install all the dependencies present in `package.json`
+
+```
+npm install
+```
+
+```
+npx playwright install
+```
+
+## Framework Structure
 
 - **Faker-generated test data** for unique values  
 - **HTML reporting** for test results  
 - **Base URL stored in `.env`** for environment configuration  
-
----
 
 ## Project Structure
 
@@ -25,31 +44,59 @@ project-root/
 ├─ playwright.config.js # Playwright configuration
 └─ README.md # Project documentation and setup
 
+## Running the tests
 
----
+Run all tests, use following command,
 
-## Setup
-
-1. **Clone the repository**
-
-```bash
-git clone https://github.com/Ommie1/playwright-api.git
-cd playwright-api
-
-2. ** Install dependencies **
-
-```bash
-npm install
-
-3. ** Running Tests **
-
-```bash
+```
 npx playwright test
-
-4. ** HTML Reports **
-
-```bash
-npx playwright show-report
+```
 
 ## Author
-Syed Umair Hassan
+
+- **Syed Umair Hassan**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
